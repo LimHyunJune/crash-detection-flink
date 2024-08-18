@@ -17,10 +17,7 @@ java {
 repositories {
     mavenCentral()
     maven {
-        url "https://repository.apache.org/content/repositories/snapshots/"
-        mavenContent {
-            snapshotsOnly()
-        }
+        url "https://packages.confluent.io/maven"
     }
 }
 
@@ -39,6 +36,7 @@ dependencies {
     implementation "org.apache.flink:flink-connector-kafka:$flinkVersion"
     implementation "org.apache.flink:flink-clients:$flinkVersion"
 
+
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.hamcrest:hamcrest-all:1.3'
 
@@ -50,23 +48,4 @@ dependencies {
 
 }
 
-tasks.withType(JavaCompile) {
-    options.encoding = 'UTF-8'
-}
 
-shadowJar {
-    archiveClassifier.set('')
-    mergeServiceFiles()
-    exclude('META-INF/*.SF', 'META-INF/*.DSA', 'META-INF/*.RSA')
-    manifest {
-        attributes 'Main-Class': 'org.apache.flink.playgrounds.creditcardtransactions.EtlApp'
-    }
-}
-
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            from components.java
-        }
-    }
-}
